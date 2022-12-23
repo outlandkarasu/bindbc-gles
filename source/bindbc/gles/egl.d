@@ -325,7 +325,7 @@ bool loadEGL(SharedLib lib){
         lib.bindSymbol( cast( void** )&eglCreatePlatformWindowSurface, "eglCreatePlatformWindowSurface" );
         lib.bindSymbol( cast( void** )&eglCreatePlatformPixmapSurface, "eglCreatePlatformPixmapSurface" );
         lib.bindSymbol( cast( void** )&eglWaitSync, "eglWaitSync" );
-        loadedVersion = EGLSupport.EGL14;
+        loadedVersion = EGLSupport.EGL15;
     }
     return(errorCount() == startErrorCount);
 }
