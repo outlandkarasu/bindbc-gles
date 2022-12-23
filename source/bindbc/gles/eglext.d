@@ -596,272 +596,274 @@ bool loadEGLExt(SharedLib lib, EGLDisplay disp){
     auto startErrorCount = errorCount();
 
     auto extensions = eglQueryString(disp, EGL_EXTENSIONS);
-    for (size_t i = 0, j = 0; extensions[i]; ++i)
-    {
-        if (extensions[i] == ' ' || !extensions[i])
-        {
-            switch (extensions[j .. i])
-            {
-                case "EGL_KHR_cl_event2":
-                    lib.bindSymbol( cast( void** )&eglCreateSync64KHR, "eglCreateSync64KHR" );
-                    eglExtensions.EGL_KHR_cl_event2 = true;
-                    break;
-                case "EGL_KHR_debug":
-                    lib.bindSymbol( cast( void** )&eglDebugMessageControlKHR, "eglDebugMessageControlKHR" );
-                    lib.bindSymbol( cast( void** )&eglQueryDebugKHR, "eglQueryDebugKHR" );
-                    lib.bindSymbol( cast( void** )&eglLabelObjectKHR, "eglLabelObjectKHR" );
-                    eglExtensions.EGL_KHR_debug = true;
-                    break;
-                case "EGL_KHR_display_reference":
-                    lib.bindSymbol( cast( void** )&eglQueryDisplayAttribKHR, "eglQueryDisplayAttribKHR" );
-                    eglExtensions.EGL_KHR_display_reference = true;
-                    break;
-                case "EGL_KHR_fence_sync":
-                    lib.bindSymbol( cast( void** )&eglCreateSyncKHR, "eglCreateSyncKHR" );
-                    lib.bindSymbol( cast( void** )&eglDestroySyncKHR, "eglDestroySyncKHR" );
-                    lib.bindSymbol( cast( void** )&eglClientWaitSyncKHR, "eglClientWaitSyncKHR" );
-                    lib.bindSymbol( cast( void** )&eglGetSyncAttribKHR, "eglGetSyncAttribKHR" );
-                    eglExtensions.EGL_KHR_fence_sync = true;
-                    break;
-                case "EGL_KHR_image":
-                    lib.bindSymbol( cast( void** )&eglCreateImageKHR, "eglCreateImageKHR" );
-                    lib.bindSymbol( cast( void** )&eglDestroyImageKHR, "eglDestroyImageKHR" );
-                    eglExtensions.EGL_KHR_image = true;
-                    break;
-                case "EGL_KHR_lock_surface":
-                    lib.bindSymbol( cast( void** )&eglLockSurfaceKHR, "eglLockSurfaceKHR" );
-                    lib.bindSymbol( cast( void** )&eglUnlockSurfaceKHR, "eglUnlockSurfaceKHR" );
-                    eglExtensions.EGL_KHR_lock_surface = true;
-                    break;
-                case "EGL_KHR_lock_surface3":
-                    lib.bindSymbol( cast( void** )&eglQuerySurface64KHR, "eglQuerySurface64KHR" );
-                    eglExtensions.EGL_KHR_lock_surface3 = true;
-                    break;
-                case "EGL_KHR_partial_update":
-                    lib.bindSymbol( cast( void** )&eglSetDamageRegionKHR, "eglSetDamageRegionKHR" );
-                    eglExtensions.EGL_KHR_partial_update = true;
-                    break;
-                case "EGL_KHR_reusable_sync":
-                    lib.bindSymbol( cast( void** )&eglSignalSyncKHR, "eglSignalSyncKHR" );
-                    eglExtensions.EGL_KHR_reusable_sync = true;
-                    break;
-                case "EGL_KHR_stream":
-                    lib.bindSymbol( cast( void** )&eglCreateStreamKHR, "eglCreateStreamKHR" );
-                    lib.bindSymbol( cast( void** )&eglDestroyStreamKHR, "eglDestroyStreamKHR" );
-                    lib.bindSymbol( cast( void** )&eglStreamAttribKHR, "eglStreamAttribKHR" );
-                    lib.bindSymbol( cast( void** )&eglQueryStreamKHR, "eglQueryStreamKHR" );
-                    lib.bindSymbol( cast( void** )&eglQueryStreamu64KHR, "eglQueryStreamu64KHR" );
-                    eglExtensions.EGL_KHR_stream = true;
-                    break;
-                case "EGL_KHR_stream_attrib":
-                    lib.bindSymbol( cast( void** )&eglCreateStreamAttribKHR, "eglCreateStreamAttribKHR" );
-                    lib.bindSymbol( cast( void** )&eglSetStreamAttribKHR, "eglSetStreamAttribKHR" );
-                    lib.bindSymbol( cast( void** )&eglQueryStreamAttribKHR, "eglQueryStreamAttribKHR" );
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerAcquireAttribKHR, "eglStreamConsumerAcquireAttribKHR" );
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerReleaseAttribKHR, "eglStreamConsumerReleaseAttribKHR" );
-                    eglExtensions.EGL_KHR_stream_attrib = true;
-                    break;
-                case "EGL_KHR_stream_consumer_gltexture":
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerGLTextureExternalKHR, "eglStreamConsumerGLTextureExternalKHR" );
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerAcquireKHR, "eglStreamConsumerAcquireKHR" );
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerReleaseKHR, "eglStreamConsumerReleaseKHR" );
-                    eglExtensions.EGL_KHR_stream_consumer_gltexture = true;
-                    break;
-                case "EGL_KHR_stream_cross_process_fd":
-                    lib.bindSymbol( cast( void** )&eglGetStreamFileDescriptorKHR, "eglGetStreamFileDescriptorKHR" );
-                    lib.bindSymbol( cast( void** )&eglCreateStreamFromFileDescriptorKHR, "eglCreateStreamFromFileDescriptorKHR" );
-                    eglExtensions.EGL_KHR_stream_cross_process_fd = true;
-                    break;
-                case "EGL_KHR_stream_fifo":
-                    lib.bindSymbol( cast( void** )&eglQueryStreamTimeKHR, "eglQueryStreamTimeKHR" );
-                    eglExtensions.EGL_KHR_stream_fifo = true;
-                    break;
-                case "EGL_KHR_stream_producer_eglsurface":
-                    lib.bindSymbol( cast( void** )&eglCreateStreamProducerSurfaceKHR, "eglCreateStreamProducerSurfaceKHR" );
-                    eglExtensions.EGL_KHR_stream_producer_eglsurface = true;
-                    break;
-                case "EGL_KHR_swap_buffers_with_damage":
-                    lib.bindSymbol( cast( void** )&eglSwapBuffersWithDamageKHR, "eglSwapBuffersWithDamageKHR" );
-                    eglExtensions.EGL_KHR_swap_buffers_with_damage = true;
-                    break;
-                case "EGL_KHR_wait_sync":
-                    lib.bindSymbol( cast( void** )&eglWaitSyncKHR, "eglWaitSyncKHR" );
-                    eglExtensions.EGL_KHR_wait_sync = true;
-                    break;
-                case "EGL_ANDROID_blob_cache":
-                    lib.bindSymbol( cast( void** )&eglSetBlobCacheFuncsANDROID, "eglSetBlobCacheFuncsANDROID" );
-                    eglExtensions.EGL_ANDROID_blob_cache = true;
-                    break;
-                case "EGL_ANDROID_create_native_client_buffer":
-                    lib.bindSymbol( cast( void** )&eglCreateNativeClientBufferANDROID, "eglCreateNativeClientBufferANDROID" );
-                    eglExtensions.EGL_ANDROID_create_native_client_buffer = true;
-                    break;
-                case "EGL_ANDROID_get_frame_timestamps":
-                    lib.bindSymbol( cast( void** )&eglGetCompositorTimingSupportedANDROID, "eglGetCompositorTimingSupportedANDROID" );
-                    lib.bindSymbol( cast( void** )&eglGetCompositorTimingANDROID, "eglGetCompositorTimingANDROID" );
-                    lib.bindSymbol( cast( void** )&eglGetNextFrameIdANDROID, "eglGetNextFrameIdANDROID" );
-                    lib.bindSymbol( cast( void** )&eglGetFrameTimestampSupportedANDROID, "eglGetFrameTimestampSupportedANDROID" );
-                    lib.bindSymbol( cast( void** )&eglGetFrameTimestampsANDROID, "eglGetFrameTimestampsANDROID" );
-                    eglExtensions.EGL_ANDROID_get_frame_timestamps = true;
-                    break;
-                case "EGL_ANDROID_get_native_client_buffer":
-                    lib.bindSymbol( cast( void** )&eglGetNativeClientBufferANDROID, "eglGetNativeClientBufferANDROID" );
-                    eglExtensions.EGL_ANDROID_get_native_client_buffer = true;
-                    break;
-                case "EGL_ANDROID_native_fence_sync":
-                    lib.bindSymbol( cast( void** )&eglDupNativeFenceFDANDROID, "eglDupNativeFenceFDANDROID" );
-                    eglExtensions.EGL_ANDROID_native_fence_sync = true;
-                    break;
-                case "EGL_ANDROID_presentation_time":
-                    lib.bindSymbol( cast( void** )&eglPresentationTimeANDROID, "eglPresentationTimeANDROID" );
-                    eglExtensions.EGL_ANDROID_presentation_time = true;
-                    break;
-                case "EGL_ANGLE_query_surface_pointer":
-                    lib.bindSymbol( cast( void** )&eglQuerySurfacePointerANGLE, "eglQuerySurfacePointerANGLE" );
-                    eglExtensions.EGL_ANGLE_query_surface_pointer = true;
-                    break;
-                case "EGL_EXT_client_sync":
-                    lib.bindSymbol( cast( void** )&eglClientSignalSyncEXT, "eglClientSignalSyncEXT" );
-                    eglExtensions.EGL_EXT_client_sync = true;
-                    break;
-                case "EGL_EXT_compositor":
-                    lib.bindSymbol( cast( void** )&eglCompositorSetContextListEXT, "eglCompositorSetContextListEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorSetContextAttributesEXT, "eglCompositorSetContextAttributesEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorSetWindowListEXT, "eglCompositorSetWindowListEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorSetWindowAttributesEXT, "eglCompositorSetWindowAttributesEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorBindTexWindowEXT, "eglCompositorBindTexWindowEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorSetSizeEXT, "eglCompositorSetSizeEXT" );
-                    lib.bindSymbol( cast( void** )&eglCompositorSwapPolicyEXT, "eglCompositorSwapPolicyEXT" );
-                    eglExtensions.EGL_EXT_compositor = true;
-                    break;
-                case "EGL_EXT_device_base":
-                    lib.bindSymbol( cast( void** )&eglQueryDeviceAttribEXT, "eglQueryDeviceAttribEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryDeviceStringEXT, "eglQueryDeviceStringEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryDevicesEXT, "eglQueryDevicesEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryDisplayAttribEXT, "eglQueryDisplayAttribEXT" );
-                    eglExtensions.EGL_EXT_device_base = true;
-                    break;
-                case "EGL_EXT_image_dma_buf_import_modifiers":
-                    lib.bindSymbol( cast( void** )&eglQueryDmaBufFormatsEXT, "eglQueryDmaBufFormatsEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryDmaBufModifiersEXT, "eglQueryDmaBufModifiersEXT" );
-                    eglExtensions.EGL_EXT_image_dma_buf_import_modifiers = true;
-                    break;
-                case "EGL_EXT_output_base":
-                    lib.bindSymbol( cast( void** )&eglGetOutputLayersEXT, "eglGetOutputLayersEXT" );
-                    lib.bindSymbol( cast( void** )&eglGetOutputPortsEXT, "eglGetOutputPortsEXT" );
-                    lib.bindSymbol( cast( void** )&eglOutputLayerAttribEXT, "eglOutputLayerAttribEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryOutputLayerAttribEXT, "eglQueryOutputLayerAttribEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryOutputLayerStringEXT, "eglQueryOutputLayerStringEXT" );
-                    lib.bindSymbol( cast( void** )&eglOutputPortAttribEXT, "eglOutputPortAttribEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryOutputPortAttribEXT, "eglQueryOutputPortAttribEXT" );
-                    lib.bindSymbol( cast( void** )&eglQueryOutputPortStringEXT, "eglQueryOutputPortStringEXT" );
-                    eglExtensions.EGL_EXT_output_base = true;
-                    break;
-                case "EGL_EXT_platform_base":
-                    lib.bindSymbol( cast( void** )&eglGetPlatformDisplayEXT, "eglGetPlatformDisplayEXT" );
-                    lib.bindSymbol( cast( void** )&eglCreatePlatformWindowSurfaceEXT, "eglCreatePlatformWindowSurfaceEXT" );
-                    lib.bindSymbol( cast( void** )&eglCreatePlatformPixmapSurfaceEXT, "eglCreatePlatformPixmapSurfaceEXT" );
-                    eglExtensions.EGL_EXT_platform_base = true;
-                    break;
-                case "EGL_EXT_stream_consumer_egloutput":
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerOutputEXT, "eglStreamConsumerOutputEXT" );
-                    eglExtensions.EGL_EXT_stream_consumer_egloutput = true;
-                    break;
-                case "EGL_EXT_swap_buffers_with_damage":
-                    lib.bindSymbol( cast( void** )&eglSwapBuffersWithDamageEXT, "eglSwapBuffersWithDamageEXT" );
-                    eglExtensions.EGL_EXT_swap_buffers_with_damage = true;
-                    break;
-                case "EGL_EXT_sync_reuse":
-                    lib.bindSymbol( cast( void** )&eglUnsignalSyncEXT, "eglUnsignalSyncEXT" );
-                    eglExtensions.EGL_EXT_sync_reuse = true;
-                    break;
-                case "EGL_HI_clientpixmap":
-                    lib.bindSymbol( cast( void** )&eglCreatePixmapSurfaceHI, "eglCreatePixmapSurfaceHI" );
-                    eglExtensions.EGL_HI_clientpixmap = true;
-                    break;
-                case "EGL_MESA_drm_image":
-                    lib.bindSymbol( cast( void** )&eglCreateDRMImageMESA, "eglCreateDRMImageMESA" );
-                    lib.bindSymbol( cast( void** )&eglExportDRMImageMESA, "eglExportDRMImageMESA" );
-                    eglExtensions.EGL_MESA_drm_image = true;
-                    break;
-                case "EGL_MESA_image_dma_buf_export":
-                    lib.bindSymbol( cast( void** )&eglExportDMABUFImageQueryMESA, "eglExportDMABUFImageQueryMESA" );
-                    lib.bindSymbol( cast( void** )&eglExportDMABUFImageMESA, "eglExportDMABUFImageMESA" );
-                    eglExtensions.EGL_MESA_image_dma_buf_export = true;
-                    break;
-                case "EGL_MESA_query_driver":
-                    lib.bindSymbol( cast( void** )&eglGetDisplayDriverConfig, "eglGetDisplayDriverConfig" );
-                    lib.bindSymbol( cast( void** )&eglGetDisplayDriverName, "eglGetDisplayDriverName" );
-                    eglExtensions.EGL_MESA_query_driver = true;
-                    break;
-                case "EGL_NOK_swap_region":
-                    lib.bindSymbol( cast( void** )&eglSwapBuffersRegionNOK, "eglSwapBuffersRegionNOK" );
-                    eglExtensions.EGL_NOK_swap_region = true;
-                    break;
-                case "EGL_NOK_swap_region2":
-                    lib.bindSymbol( cast( void** )&eglSwapBuffersRegion2NOK, "eglSwapBuffersRegion2NOK" );
-                    eglExtensions.EGL_NOK_swap_region2 = true;
-                    break;
-                case "EGL_NV_native_query":
-                    lib.bindSymbol( cast( void** )&eglQueryNativeDisplayNV, "eglQueryNativeDisplayNV" );
-                    lib.bindSymbol( cast( void** )&eglQueryNativeWindowNV, "eglQueryNativeWindowNV" );
-                    lib.bindSymbol( cast( void** )&eglQueryNativePixmapNV, "eglQueryNativePixmapNV" );
-                    eglExtensions.EGL_NV_native_query = true;
-                    break;
-                case "EGL_NV_post_sub_buffer":
-                    lib.bindSymbol( cast( void** )&eglPostSubBufferNV, "eglPostSubBufferNV" );
-                    eglExtensions.EGL_NV_post_sub_buffer = true;
-                    break;
-                case "EGL_NV_stream_consumer_gltexture_yuv":
-                    lib.bindSymbol( cast( void** )&eglStreamConsumerGLTextureExternalAttribsNV, "eglStreamConsumerGLTextureExternalAttribsNV" );
-                    eglExtensions.EGL_NV_stream_consumer_gltexture_yuv = true;
-                    break;
-                case "EGL_NV_stream_flush":
-                    lib.bindSymbol( cast( void** )&eglStreamFlushNV, "eglStreamFlushNV" );
-                    eglExtensions.EGL_NV_stream_flush = true;
-                    break;
-                case "EGL_NV_stream_metadata":
-                    lib.bindSymbol( cast( void** )&eglQueryDisplayAttribNV, "eglQueryDisplayAttribNV" );
-                    lib.bindSymbol( cast( void** )&eglSetStreamMetadataNV, "eglSetStreamMetadataNV" );
-                    lib.bindSymbol( cast( void** )&eglQueryStreamMetadataNV, "eglQueryStreamMetadataNV" );
-                    eglExtensions.EGL_NV_stream_metadata = true;
-                    break;
-                case "EGL_NV_stream_reset":
-                    lib.bindSymbol( cast( void** )&eglResetStreamNV, "eglResetStreamNV" );
-                    eglExtensions.EGL_NV_stream_reset = true;
-                    break;
-                case "EGL_NV_stream_sync":
-                    lib.bindSymbol( cast( void** )&eglCreateStreamSyncNV, "eglCreateStreamSyncNV" );
-                    eglExtensions.EGL_NV_stream_sync = true;
-                    break;
-                case "EGL_NV_sync":
-                    lib.bindSymbol( cast( void** )&eglCreateFenceSyncNV, "eglCreateFenceSyncNV" );
-                    lib.bindSymbol( cast( void** )&eglDestroySyncNV, "eglDestroySyncNV" );
-                    lib.bindSymbol( cast( void** )&eglFenceNV, "eglFenceNV" );
-                    lib.bindSymbol( cast( void** )&eglClientWaitSyncNV, "eglClientWaitSyncNV" );
-                    lib.bindSymbol( cast( void** )&eglSignalSyncNV, "eglSignalSyncNV" );
-                    lib.bindSymbol( cast( void** )&eglGetSyncAttribNV, "eglGetSyncAttribNV" );
-                    eglExtensions.EGL_NV_sync = true;
-                    break;
-                case "EGL_NV_system_time":
-                    lib.bindSymbol( cast( void** )&eglGetSystemTimeFrequencyNV, "eglGetSystemTimeFrequencyNV" );
-                    lib.bindSymbol( cast( void** )&eglGetSystemTimeNV, "eglGetSystemTimeNV" );
-                    eglExtensions.EGL_NV_system_time = true;
-                    break;
-                case "EGL_WL_bind_wayland_display":
-                    lib.bindSymbol( cast( void** )&eglBindWaylandDisplayWL, "eglBindWaylandDisplayWL" );
-                    lib.bindSymbol( cast( void** )&eglUnbindWaylandDisplayWL, "eglUnbindWaylandDisplayWL" );
-                    lib.bindSymbol( cast( void** )&eglQueryWaylandBufferWL, "eglQueryWaylandBufferWL" );
-                    eglExtensions.EGL_WL_bind_wayland_display = true;
-                    break;
-                case "EGL_WL_create_wayland_buffer_from_image":
-                    lib.bindSymbol( cast( void** )&eglCreateWaylandBufferFromImageWL, "eglCreateWaylandBufferFromImageWL" );
-                    eglExtensions.EGL_WL_create_wayland_buffer_from_image = true;
-                    break;
-                default:
-                    break;
-            }
+    if (!extensions) return false;
+
+    for (size_t i = 0, start = 0; ; ++i) {
+        if (extensions[i] && extensions[i] != ' ') continue;
+        if (start == i) break;
+
+        switch (extensions[start .. i]) {
+            case "EGL_KHR_cl_event2":
+                lib.bindSymbol( cast( void** )&eglCreateSync64KHR, "eglCreateSync64KHR" );
+                eglExtensions.EGL_KHR_cl_event2 = true;
+                break;
+            case "EGL_KHR_debug":
+                lib.bindSymbol( cast( void** )&eglDebugMessageControlKHR, "eglDebugMessageControlKHR" );
+                lib.bindSymbol( cast( void** )&eglQueryDebugKHR, "eglQueryDebugKHR" );
+                lib.bindSymbol( cast( void** )&eglLabelObjectKHR, "eglLabelObjectKHR" );
+                eglExtensions.EGL_KHR_debug = true;
+                break;
+            case "EGL_KHR_display_reference":
+                lib.bindSymbol( cast( void** )&eglQueryDisplayAttribKHR, "eglQueryDisplayAttribKHR" );
+                eglExtensions.EGL_KHR_display_reference = true;
+                break;
+            case "EGL_KHR_fence_sync":
+                lib.bindSymbol( cast( void** )&eglCreateSyncKHR, "eglCreateSyncKHR" );
+                lib.bindSymbol( cast( void** )&eglDestroySyncKHR, "eglDestroySyncKHR" );
+                lib.bindSymbol( cast( void** )&eglClientWaitSyncKHR, "eglClientWaitSyncKHR" );
+                lib.bindSymbol( cast( void** )&eglGetSyncAttribKHR, "eglGetSyncAttribKHR" );
+                eglExtensions.EGL_KHR_fence_sync = true;
+                break;
+            case "EGL_KHR_image":
+                lib.bindSymbol( cast( void** )&eglCreateImageKHR, "eglCreateImageKHR" );
+                lib.bindSymbol( cast( void** )&eglDestroyImageKHR, "eglDestroyImageKHR" );
+                eglExtensions.EGL_KHR_image = true;
+                break;
+            case "EGL_KHR_lock_surface":
+                lib.bindSymbol( cast( void** )&eglLockSurfaceKHR, "eglLockSurfaceKHR" );
+                lib.bindSymbol( cast( void** )&eglUnlockSurfaceKHR, "eglUnlockSurfaceKHR" );
+                eglExtensions.EGL_KHR_lock_surface = true;
+                break;
+            case "EGL_KHR_lock_surface3":
+                lib.bindSymbol( cast( void** )&eglQuerySurface64KHR, "eglQuerySurface64KHR" );
+                eglExtensions.EGL_KHR_lock_surface3 = true;
+                break;
+            case "EGL_KHR_partial_update":
+                lib.bindSymbol( cast( void** )&eglSetDamageRegionKHR, "eglSetDamageRegionKHR" );
+                eglExtensions.EGL_KHR_partial_update = true;
+                break;
+            case "EGL_KHR_reusable_sync":
+                lib.bindSymbol( cast( void** )&eglSignalSyncKHR, "eglSignalSyncKHR" );
+                eglExtensions.EGL_KHR_reusable_sync = true;
+                break;
+            case "EGL_KHR_stream":
+                lib.bindSymbol( cast( void** )&eglCreateStreamKHR, "eglCreateStreamKHR" );
+                lib.bindSymbol( cast( void** )&eglDestroyStreamKHR, "eglDestroyStreamKHR" );
+                lib.bindSymbol( cast( void** )&eglStreamAttribKHR, "eglStreamAttribKHR" );
+                lib.bindSymbol( cast( void** )&eglQueryStreamKHR, "eglQueryStreamKHR" );
+                lib.bindSymbol( cast( void** )&eglQueryStreamu64KHR, "eglQueryStreamu64KHR" );
+                eglExtensions.EGL_KHR_stream = true;
+                break;
+            case "EGL_KHR_stream_attrib":
+                lib.bindSymbol( cast( void** )&eglCreateStreamAttribKHR, "eglCreateStreamAttribKHR" );
+                lib.bindSymbol( cast( void** )&eglSetStreamAttribKHR, "eglSetStreamAttribKHR" );
+                lib.bindSymbol( cast( void** )&eglQueryStreamAttribKHR, "eglQueryStreamAttribKHR" );
+                lib.bindSymbol( cast( void** )&eglStreamConsumerAcquireAttribKHR, "eglStreamConsumerAcquireAttribKHR" );
+                lib.bindSymbol( cast( void** )&eglStreamConsumerReleaseAttribKHR, "eglStreamConsumerReleaseAttribKHR" );
+                eglExtensions.EGL_KHR_stream_attrib = true;
+                break;
+            case "EGL_KHR_stream_consumer_gltexture":
+                lib.bindSymbol( cast( void** )&eglStreamConsumerGLTextureExternalKHR, "eglStreamConsumerGLTextureExternalKHR" );
+                lib.bindSymbol( cast( void** )&eglStreamConsumerAcquireKHR, "eglStreamConsumerAcquireKHR" );
+                lib.bindSymbol( cast( void** )&eglStreamConsumerReleaseKHR, "eglStreamConsumerReleaseKHR" );
+                eglExtensions.EGL_KHR_stream_consumer_gltexture = true;
+                break;
+            case "EGL_KHR_stream_cross_process_fd":
+                lib.bindSymbol( cast( void** )&eglGetStreamFileDescriptorKHR, "eglGetStreamFileDescriptorKHR" );
+                lib.bindSymbol( cast( void** )&eglCreateStreamFromFileDescriptorKHR, "eglCreateStreamFromFileDescriptorKHR" );
+                eglExtensions.EGL_KHR_stream_cross_process_fd = true;
+                break;
+            case "EGL_KHR_stream_fifo":
+                lib.bindSymbol( cast( void** )&eglQueryStreamTimeKHR, "eglQueryStreamTimeKHR" );
+                eglExtensions.EGL_KHR_stream_fifo = true;
+                break;
+            case "EGL_KHR_stream_producer_eglsurface":
+                lib.bindSymbol( cast( void** )&eglCreateStreamProducerSurfaceKHR, "eglCreateStreamProducerSurfaceKHR" );
+                eglExtensions.EGL_KHR_stream_producer_eglsurface = true;
+                break;
+            case "EGL_KHR_swap_buffers_with_damage":
+                lib.bindSymbol( cast( void** )&eglSwapBuffersWithDamageKHR, "eglSwapBuffersWithDamageKHR" );
+                eglExtensions.EGL_KHR_swap_buffers_with_damage = true;
+                break;
+            case "EGL_KHR_wait_sync":
+                lib.bindSymbol( cast( void** )&eglWaitSyncKHR, "eglWaitSyncKHR" );
+                eglExtensions.EGL_KHR_wait_sync = true;
+                break;
+            case "EGL_ANDROID_blob_cache":
+                lib.bindSymbol( cast( void** )&eglSetBlobCacheFuncsANDROID, "eglSetBlobCacheFuncsANDROID" );
+                eglExtensions.EGL_ANDROID_blob_cache = true;
+                break;
+            case "EGL_ANDROID_create_native_client_buffer":
+                lib.bindSymbol( cast( void** )&eglCreateNativeClientBufferANDROID, "eglCreateNativeClientBufferANDROID" );
+                eglExtensions.EGL_ANDROID_create_native_client_buffer = true;
+                break;
+            case "EGL_ANDROID_get_frame_timestamps":
+                lib.bindSymbol( cast( void** )&eglGetCompositorTimingSupportedANDROID, "eglGetCompositorTimingSupportedANDROID" );
+                lib.bindSymbol( cast( void** )&eglGetCompositorTimingANDROID, "eglGetCompositorTimingANDROID" );
+                lib.bindSymbol( cast( void** )&eglGetNextFrameIdANDROID, "eglGetNextFrameIdANDROID" );
+                lib.bindSymbol( cast( void** )&eglGetFrameTimestampSupportedANDROID, "eglGetFrameTimestampSupportedANDROID" );
+                lib.bindSymbol( cast( void** )&eglGetFrameTimestampsANDROID, "eglGetFrameTimestampsANDROID" );
+                eglExtensions.EGL_ANDROID_get_frame_timestamps = true;
+                break;
+            case "EGL_ANDROID_get_native_client_buffer":
+                lib.bindSymbol( cast( void** )&eglGetNativeClientBufferANDROID, "eglGetNativeClientBufferANDROID" );
+                eglExtensions.EGL_ANDROID_get_native_client_buffer = true;
+                break;
+            case "EGL_ANDROID_native_fence_sync":
+                lib.bindSymbol( cast( void** )&eglDupNativeFenceFDANDROID, "eglDupNativeFenceFDANDROID" );
+                eglExtensions.EGL_ANDROID_native_fence_sync = true;
+                break;
+            case "EGL_ANDROID_presentation_time":
+                lib.bindSymbol( cast( void** )&eglPresentationTimeANDROID, "eglPresentationTimeANDROID" );
+                eglExtensions.EGL_ANDROID_presentation_time = true;
+                break;
+            case "EGL_ANGLE_query_surface_pointer":
+                lib.bindSymbol( cast( void** )&eglQuerySurfacePointerANGLE, "eglQuerySurfacePointerANGLE" );
+                eglExtensions.EGL_ANGLE_query_surface_pointer = true;
+                break;
+            case "EGL_EXT_client_sync":
+                lib.bindSymbol( cast( void** )&eglClientSignalSyncEXT, "eglClientSignalSyncEXT" );
+                eglExtensions.EGL_EXT_client_sync = true;
+                break;
+            case "EGL_EXT_compositor":
+                lib.bindSymbol( cast( void** )&eglCompositorSetContextListEXT, "eglCompositorSetContextListEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorSetContextAttributesEXT, "eglCompositorSetContextAttributesEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorSetWindowListEXT, "eglCompositorSetWindowListEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorSetWindowAttributesEXT, "eglCompositorSetWindowAttributesEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorBindTexWindowEXT, "eglCompositorBindTexWindowEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorSetSizeEXT, "eglCompositorSetSizeEXT" );
+                lib.bindSymbol( cast( void** )&eglCompositorSwapPolicyEXT, "eglCompositorSwapPolicyEXT" );
+                eglExtensions.EGL_EXT_compositor = true;
+                break;
+            case "EGL_EXT_device_base":
+                lib.bindSymbol( cast( void** )&eglQueryDeviceAttribEXT, "eglQueryDeviceAttribEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryDeviceStringEXT, "eglQueryDeviceStringEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryDevicesEXT, "eglQueryDevicesEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryDisplayAttribEXT, "eglQueryDisplayAttribEXT" );
+                eglExtensions.EGL_EXT_device_base = true;
+                break;
+            case "EGL_EXT_image_dma_buf_import_modifiers":
+                lib.bindSymbol( cast( void** )&eglQueryDmaBufFormatsEXT, "eglQueryDmaBufFormatsEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryDmaBufModifiersEXT, "eglQueryDmaBufModifiersEXT" );
+                eglExtensions.EGL_EXT_image_dma_buf_import_modifiers = true;
+                break;
+            case "EGL_EXT_output_base":
+                lib.bindSymbol( cast( void** )&eglGetOutputLayersEXT, "eglGetOutputLayersEXT" );
+                lib.bindSymbol( cast( void** )&eglGetOutputPortsEXT, "eglGetOutputPortsEXT" );
+                lib.bindSymbol( cast( void** )&eglOutputLayerAttribEXT, "eglOutputLayerAttribEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryOutputLayerAttribEXT, "eglQueryOutputLayerAttribEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryOutputLayerStringEXT, "eglQueryOutputLayerStringEXT" );
+                lib.bindSymbol( cast( void** )&eglOutputPortAttribEXT, "eglOutputPortAttribEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryOutputPortAttribEXT, "eglQueryOutputPortAttribEXT" );
+                lib.bindSymbol( cast( void** )&eglQueryOutputPortStringEXT, "eglQueryOutputPortStringEXT" );
+                eglExtensions.EGL_EXT_output_base = true;
+                break;
+            case "EGL_EXT_platform_base":
+                lib.bindSymbol( cast( void** )&eglGetPlatformDisplayEXT, "eglGetPlatformDisplayEXT" );
+                lib.bindSymbol( cast( void** )&eglCreatePlatformWindowSurfaceEXT, "eglCreatePlatformWindowSurfaceEXT" );
+                lib.bindSymbol( cast( void** )&eglCreatePlatformPixmapSurfaceEXT, "eglCreatePlatformPixmapSurfaceEXT" );
+                eglExtensions.EGL_EXT_platform_base = true;
+                break;
+            case "EGL_EXT_stream_consumer_egloutput":
+                lib.bindSymbol( cast( void** )&eglStreamConsumerOutputEXT, "eglStreamConsumerOutputEXT" );
+                eglExtensions.EGL_EXT_stream_consumer_egloutput = true;
+                break;
+            case "EGL_EXT_swap_buffers_with_damage":
+                lib.bindSymbol( cast( void** )&eglSwapBuffersWithDamageEXT, "eglSwapBuffersWithDamageEXT" );
+                eglExtensions.EGL_EXT_swap_buffers_with_damage = true;
+                break;
+            case "EGL_EXT_sync_reuse":
+                lib.bindSymbol( cast( void** )&eglUnsignalSyncEXT, "eglUnsignalSyncEXT" );
+                eglExtensions.EGL_EXT_sync_reuse = true;
+                break;
+            case "EGL_HI_clientpixmap":
+                lib.bindSymbol( cast( void** )&eglCreatePixmapSurfaceHI, "eglCreatePixmapSurfaceHI" );
+                eglExtensions.EGL_HI_clientpixmap = true;
+                break;
+            case "EGL_MESA_drm_image":
+                lib.bindSymbol( cast( void** )&eglCreateDRMImageMESA, "eglCreateDRMImageMESA" );
+                lib.bindSymbol( cast( void** )&eglExportDRMImageMESA, "eglExportDRMImageMESA" );
+                eglExtensions.EGL_MESA_drm_image = true;
+                break;
+            case "EGL_MESA_image_dma_buf_export":
+                lib.bindSymbol( cast( void** )&eglExportDMABUFImageQueryMESA, "eglExportDMABUFImageQueryMESA" );
+                lib.bindSymbol( cast( void** )&eglExportDMABUFImageMESA, "eglExportDMABUFImageMESA" );
+                eglExtensions.EGL_MESA_image_dma_buf_export = true;
+                break;
+            case "EGL_MESA_query_driver":
+                lib.bindSymbol( cast( void** )&eglGetDisplayDriverConfig, "eglGetDisplayDriverConfig" );
+                lib.bindSymbol( cast( void** )&eglGetDisplayDriverName, "eglGetDisplayDriverName" );
+                eglExtensions.EGL_MESA_query_driver = true;
+                break;
+            case "EGL_NOK_swap_region":
+                lib.bindSymbol( cast( void** )&eglSwapBuffersRegionNOK, "eglSwapBuffersRegionNOK" );
+                eglExtensions.EGL_NOK_swap_region = true;
+                break;
+            case "EGL_NOK_swap_region2":
+                lib.bindSymbol( cast( void** )&eglSwapBuffersRegion2NOK, "eglSwapBuffersRegion2NOK" );
+                eglExtensions.EGL_NOK_swap_region2 = true;
+                break;
+            case "EGL_NV_native_query":
+                lib.bindSymbol( cast( void** )&eglQueryNativeDisplayNV, "eglQueryNativeDisplayNV" );
+                lib.bindSymbol( cast( void** )&eglQueryNativeWindowNV, "eglQueryNativeWindowNV" );
+                lib.bindSymbol( cast( void** )&eglQueryNativePixmapNV, "eglQueryNativePixmapNV" );
+                eglExtensions.EGL_NV_native_query = true;
+                break;
+            case "EGL_NV_post_sub_buffer":
+                lib.bindSymbol( cast( void** )&eglPostSubBufferNV, "eglPostSubBufferNV" );
+                eglExtensions.EGL_NV_post_sub_buffer = true;
+                break;
+            case "EGL_NV_stream_consumer_gltexture_yuv":
+                lib.bindSymbol( cast( void** )&eglStreamConsumerGLTextureExternalAttribsNV, "eglStreamConsumerGLTextureExternalAttribsNV" );
+                eglExtensions.EGL_NV_stream_consumer_gltexture_yuv = true;
+                break;
+            case "EGL_NV_stream_flush":
+                lib.bindSymbol( cast( void** )&eglStreamFlushNV, "eglStreamFlushNV" );
+                eglExtensions.EGL_NV_stream_flush = true;
+                break;
+            case "EGL_NV_stream_metadata":
+                lib.bindSymbol( cast( void** )&eglQueryDisplayAttribNV, "eglQueryDisplayAttribNV" );
+                lib.bindSymbol( cast( void** )&eglSetStreamMetadataNV, "eglSetStreamMetadataNV" );
+                lib.bindSymbol( cast( void** )&eglQueryStreamMetadataNV, "eglQueryStreamMetadataNV" );
+                eglExtensions.EGL_NV_stream_metadata = true;
+                break;
+            case "EGL_NV_stream_reset":
+                lib.bindSymbol( cast( void** )&eglResetStreamNV, "eglResetStreamNV" );
+                eglExtensions.EGL_NV_stream_reset = true;
+                break;
+            case "EGL_NV_stream_sync":
+                lib.bindSymbol( cast( void** )&eglCreateStreamSyncNV, "eglCreateStreamSyncNV" );
+                eglExtensions.EGL_NV_stream_sync = true;
+                break;
+            case "EGL_NV_sync":
+                lib.bindSymbol( cast( void** )&eglCreateFenceSyncNV, "eglCreateFenceSyncNV" );
+                lib.bindSymbol( cast( void** )&eglDestroySyncNV, "eglDestroySyncNV" );
+                lib.bindSymbol( cast( void** )&eglFenceNV, "eglFenceNV" );
+                lib.bindSymbol( cast( void** )&eglClientWaitSyncNV, "eglClientWaitSyncNV" );
+                lib.bindSymbol( cast( void** )&eglSignalSyncNV, "eglSignalSyncNV" );
+                lib.bindSymbol( cast( void** )&eglGetSyncAttribNV, "eglGetSyncAttribNV" );
+                eglExtensions.EGL_NV_sync = true;
+                break;
+            case "EGL_NV_system_time":
+                lib.bindSymbol( cast( void** )&eglGetSystemTimeFrequencyNV, "eglGetSystemTimeFrequencyNV" );
+                lib.bindSymbol( cast( void** )&eglGetSystemTimeNV, "eglGetSystemTimeNV" );
+                eglExtensions.EGL_NV_system_time = true;
+                break;
+            case "EGL_WL_bind_wayland_display":
+                lib.bindSymbol( cast( void** )&eglBindWaylandDisplayWL, "eglBindWaylandDisplayWL" );
+                lib.bindSymbol( cast( void** )&eglUnbindWaylandDisplayWL, "eglUnbindWaylandDisplayWL" );
+                lib.bindSymbol( cast( void** )&eglQueryWaylandBufferWL, "eglQueryWaylandBufferWL" );
+                eglExtensions.EGL_WL_bind_wayland_display = true;
+                break;
+            case "EGL_WL_create_wayland_buffer_from_image":
+                lib.bindSymbol( cast( void** )&eglCreateWaylandBufferFromImageWL, "eglCreateWaylandBufferFromImageWL" );
+                eglExtensions.EGL_WL_create_wayland_buffer_from_image = true;
+                break;
+            default:
+                break;
         }
+
+        start = i + 1;
     }
 
     return(errorCount() == startErrorCount);
