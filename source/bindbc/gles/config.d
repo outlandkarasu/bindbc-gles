@@ -23,3 +23,10 @@ enum GLESSupport  {
     GLES31,
     GLES32
 }
+
+enum EGLExtSupport  {
+    noLibrary,
+    badLibrary,
+    noContext,
+    EGLExt,
+}
