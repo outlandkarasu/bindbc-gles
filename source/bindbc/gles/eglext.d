@@ -6,7 +6,8 @@ module bindbc.gles.eglext;
 
 import bindbc.loader;
 
-import bindbc.gles.eglexttypes;
+public import bindbc.gles.eglexttypes,
+              bindbc.gles.eglextconstants;
 public import bindbc.gles.egltypes;
 public import bindbc.gles.egl;
 
