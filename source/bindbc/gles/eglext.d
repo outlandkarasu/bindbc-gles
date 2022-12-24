@@ -872,10 +872,10 @@ ref const(EGLExtensions) EGLextensions() { return eglExtensions; }
 
 bool loadEGLExtProcAddress(string procName)()
 {
-    alias procAddressVariable = mixin("p" ~ procName);
-    alias ProcAddressType = typeof(procAddressVariable);
+    alias ProcAddressType = mixin("p" ~ procName);
+    alias procAddressVariable = mixin(procName);
     auto procAddress = cast(ProcAddressType) eglGetProcAddress(procName.ptr);
     if (!procAddress) return false;
     procAddressVariable = procAddress;
-    return false;
+    return true;
 }
