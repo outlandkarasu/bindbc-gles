@@ -868,3 +868,14 @@ bool loadEGLExt(SharedLib lib, EGLDisplay disp){
 
     return(errorCount() == startErrorCount);
 }
+ref const(EGLExtensions) EGLextensions() { return eglExtensions; }
+
+bool loadEGLExtProcAddress(string procName)()
+{
+    alias procAddressVariable = mixin("p" ~ procName);
+    alias ProcAddressType = typeof(procAddressVariable);
+    auto procAddress = cast(ProcAddressType) eglGetProcAddress(procName.ptr);
+    if (!procAddress) return false;
+    procAddressVariable = procAddress;
+    return false;
+}
