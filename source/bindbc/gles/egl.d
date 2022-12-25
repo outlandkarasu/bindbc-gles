@@ -260,7 +260,7 @@ EGLExtSupport loadEGLExt(EGLDisplay disp = EGL_NO_DISPLAY)
 
 extern(System) @nogc nothrow {
     // V1.0
-    alias peglGetError = void function(  );
+    alias peglGetError = EGLint function(  );
     alias peglGetDisplay = EGLDisplay function( EGLNativeDisplayType );
     alias peglInitialize = EGLBoolean function( EGLDisplay, EGLint*, EGLint* );
     alias peglTerminate = EGLBoolean function( EGLDisplay );
