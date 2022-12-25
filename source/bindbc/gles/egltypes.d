@@ -24,3 +24,4 @@ alias EGLClientBuffer = void*;
 alias EGLSync = void*;
 alias EGLAttrib = intptr_t;
 alias EGLTime = ulong;
+alias EGLImage = void*;
