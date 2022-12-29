@@ -239,6 +239,7 @@ extern(System) @nogc nothrow {
     alias pglBindVertexArray = void function(GLuint);
     alias pglGetAttribLocation = GLint function(GLuint, const(GLchar)*);
     alias pglEnableVertexAttribArray = void function(GLuint);
+    alias pglDisableVertexAttribArray = void function(GLuint);
     alias pglVertexAttribPointer = void function(GLuint, GLint, GLenum, GLboolean, GLsizei, const(void)*);
 }
 
@@ -410,6 +411,7 @@ __gshared {
   pglBindVertexArray glBindVertexArray;
   pglGetAttribLocation glGetAttribLocation;
   pglEnableVertexAttribArray glEnableVertexAttribArray;
+  pglDisableVertexAttribArray glDisableVertexAttribArray;
   pglVertexAttribPointer glVertexAttribPointer;
 }
 
@@ -583,6 +585,7 @@ bool loadGLES(SharedLib lib){
     lib.bindSymbol( cast( void** )&glBindVertexArray, "glBindVertexArray" );
     lib.bindSymbol( cast( void** )&glGetAttribLocation, "glGetAttribLocation" );
     lib.bindSymbol( cast( void** )&glEnableVertexAttribArray, "glEnableVertexAttribArray" );
+    lib.bindSymbol( cast( void** )&glDisableVertexAttribArray, "glDisableVertexAttribArray" );
     lib.bindSymbol( cast( void** )&glVertexAttribPointer, "glVertexAttribPointer" );
 
     return(errorCount() == startErrorCount);
