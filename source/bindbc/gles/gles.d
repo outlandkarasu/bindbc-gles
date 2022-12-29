@@ -219,10 +219,16 @@ extern(System) @nogc nothrow {
     alias pglGetShaderiv = void function( GLuint, GLenum, GLint* );
     alias pglGetShaderInfoLog = void function( GLuint, GLsizei, GLsizei*, GLchar* );
     alias pglCreateShader = GLuint function( GLenum );
+    alias pglDeleteShader = GLuint function( GLuint );
+    alias pglGetProgramiv = void function( GLuint, GLenum, GLint* );
+    alias pglGetProgramInfoLog = void function(	GLuint, GLsizei, GLsizei*, GLchar* );
     alias pglCreateProgram = GLuint function(  );
+    alias pglDeleteProgram = void function( GLuint );
     alias pglShaderSource = void function( GLuint, GLsizei, const( const( GLchar )* )*, const GLint* );
     alias pglCompileShader = void function( GLuint );
     alias pglAttachShader = void function( GLuint, GLuint );
+    alias pglDetachShader = void function( GLuint, GLuint );
+
     alias pglLinkProgram = void function( GLuint );
     alias pglGenerateMipmap = void function( GLenum );
 
@@ -261,11 +267,14 @@ __gshared {
   pglCopyTexSubImage2D glCopyTexSubImage2D;
   pglCullFace glCullFace;
   pglDeleteBuffers glDeleteBuffers;
+  pglDeleteProgram glDeleteProgram;
+  pglDeleteShader glDeleteShader;
   pglDeleteTextures glDeleteTextures;
   pglDepthFunc glDepthFunc;
   pglDepthMask glDepthMask;
   pglDepthRangef glDepthRangef;
   pglDepthRangex glDepthRangex;
+  pglDetachShader glDetachShader;
   pglDrawArrays glDrawArrays;
   pglDrawElements glDrawElements;
   pglEnable glEnable;
@@ -291,6 +300,8 @@ __gshared {
   pglGetMaterialfv glGetMaterialfv;
   pglGetMaterialxv glGetMaterialxv;
   pglGetPointerv glGetPointerv;
+  pglGetProgramInfoLog glGetProgramInfoLog;
+  pglGetProgramiv glGetProgramiv;
   pglGetString glGetString;
   pglGetTexEnvfv glGetTexEnvfv;
   pglGetTexEnviv glGetTexEnviv;
@@ -535,10 +546,15 @@ bool loadGLES(SharedLib lib){
     
     //V2.0
     lib.bindSymbol( cast( void** )&glDisable, "glDisable" );
+    lib.bindSymbol( cast( void** )&glDeleteProgram, "glDeleteProgram" );
+    lib.bindSymbol( cast( void** )&glDeleteShader, "glDeleteShader" );
+    lib.bindSymbol( cast( void** )&glDetachShader, "glDetachShader" );
     lib.bindSymbol( cast( void** )&glBindFramebuffer, "glBindFramebuffer" );
     lib.bindSymbol( cast( void** )&glBindRenderbuffer, "glBindRenderbuffer" );
     lib.bindSymbol( cast( void** )&glGenFramebuffers, "glGenFramebuffers" );
     lib.bindSymbol( cast( void** )&glGenRenderbuffers, "glGenRenderbuffers" );
+    lib.bindSymbol( cast( void** )&glGetProgramInfoLog, "glGetProgramInfoLog" );
+    lib.bindSymbol( cast( void** )&glGetProgramiv, "glGetProgramiv" );
     lib.bindSymbol( cast( void** )&glRenderbufferStorage, "glRenderbufferStorage" );
     lib.bindSymbol( cast( void** )&glFramebufferRenderbuffer, "glFramebufferRenderbuffer" );
     lib.bindSymbol( cast( void** )&glFramebufferTexture2D, "glFramebufferTexture2D" );
